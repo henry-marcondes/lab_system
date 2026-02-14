@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Meus Equipamentos{% endblock %}
+
+{% block content %}
+
+<h1>Meus Equipamentos em Uso</h1>
+
+{% if usos %}
+<table>
+    <thead>
+        <tr>
+            <th>Equipamento</th>
+            <th>Data de Retirada</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for uso in usos %}
+        <tr>
+            <td>{{ uso.equipamento.nome }}</td>
+            <td>{{ uso.data_retirada|date:"d/m/Y H:i" }}</td>
+            <td>
+                <a class="btn btn-danger"
+                   href="{% url 'devolver_equipamento' uso.equipamento.id %}">
+                    Devolver
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>Você não possui equipamentos em uso.</p>
+{% endif %}
+
+{% endblock %}

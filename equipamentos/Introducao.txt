@@ -1,0 +1,20 @@
+SISTEMA DE CONTROE DE EQUIPAMENTOS / LABORATÓRIO
+
+Um laboratório/empresa precisa:
+
+  Saber quais equipamentos existem
+  Quem está usando
+  Se está disponível
+  Se está em manutenção
+  Histórico de uso
+
+  Usuário (navegador)
+	↓
+  HTML (interface)
+	↓
+  Flask (rotas)
+	↓
+  Regras do sistema
+	↓
+  MySQL (banco)
+

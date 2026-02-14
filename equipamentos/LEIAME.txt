@@ -1,0 +1,6 @@
+Palavra chave para continuar o projeto.
+
+login de usuário: henry
+senha: 5563
+
+“continuar sistema de equipamentos”

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Relatório de Manutenção{% endblock %}
+
+{% block content %}
+<h1>Relatório – Equipamentos em Manutenção</h1>
+
+<div style="margin-bottom:20px;">
+    <a class="btn btn-success"
+       href="{% url 'relatorio_manutencao_excel' %}">
+        📊 Gerar Excel
+    </a>
+
+    <a class="btn btn-secondary"
+       href="{% url 'relatorio_manutencao_csv' %}">
+        📄 Gerar CSV
+    </a>
+    <a class="btn btn-warning" href="{% url 'home' %}">
+    Dashboard
+    </a>
+</div>
+
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Tipo</th>
+        <th>Localização</th>
+        <th>Status</th>
+    </tr>
+
+    {% for eq in equipamentos %}
+    <tr>
+        <td>{{ eq.nome }}</td>
+        <td>{{ eq.tipo }}</td>
+        <td>{{ eq.localizacao }}</td>
+        <td class="status-manutencao">
+            {{ eq.get_status_display }}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">Nenhum equipamento em manutenção.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

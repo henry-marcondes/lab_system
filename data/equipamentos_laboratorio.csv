@@ -1,0 +1,29 @@
+nome,tipo,status
+Hematologia Automatizada,Analises Clinicas,DISPONIVEL
+Analisador Bioquimico,Analises Clinicas,DISPONIVEL
+Analisador de Eletrolitos,Analises Clinicas,DISPONIVEL
+Analisador de Coagulacao,Analises Clinicas,DISPONIVEL
+Gasometro,Analises Clinicas,DISPONIVEL
+Analisador de Urina,Analises Clinicas,DISPONIVEL
+Microscopio Optico,Analises Clinicas,DISPONIVEL
+Centrifuga de Bancada,Analises Clinicas,DISPONIVEL
+Centrifuga Refrigerada,Analises Clinicas,DISPONIVEL
+Banho-Maria,Analises Clinicas,DISPONIVEL
+Estufa Bacteriologica,Microbiologia,DISPONIVEL
+Estufa de CO2,Microbiologia,DISPONIVEL
+Capela de Fluxo Laminar,Microbiologia,DISPONIVEL
+Autoclave,Microbiologia,DISPONIVEL
+Incubadora,Microbiologia,DISPONIVEL
+Contador de Colonias,Microbiologia,DISPONIVEL
+Analisador de Imunoensaio,Imunologia,DISPONIVEL
+ELISA Reader,Imunologia,DISPONIVEL
+Lavadora de ELISA,Imunologia,DISPONIVEL
+Balanca Analitica,Apoio,DISPONIVEL
+Agitador Vortex,Apoio,DISPONIVEL
+Agitador Magnetico,Apoio,DISPONIVEL
+Refrigerador de Reagentes,Apoio,DISPONIVEL
+Freezer -20C,Apoio,DISPONIVEL
+Freezer -80C,Apoio,DISPONIVEL
+Sistema de Agua Deionizada,Apoio,DISPONIVEL
+Pipetas Automaticas,Apoio,DISPONIVEL
+Destilador de Agua,Apoio,DISPONIVEL

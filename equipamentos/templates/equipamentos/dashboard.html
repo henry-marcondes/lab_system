@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h1>Dashboard do Laboratório</h1>
+
+
+<div class="dashboard">
+
+    <div class="card total">
+        <h2>{{ total }}</h2>
+        <p>Total de Equipamentos</p>
+    </div>
+
+    <div class="card disponivel">
+        <h2>{{ disponiveis }}</h2>
+        <p>Disponíveis</p>
+    </div>
+
+    <div class="card uso">
+        <h2>{{ em_uso }}</h2>
+        <p>Em Uso</p>
+    </div>
+
+    <div class="card manutencao">
+        <h2>{{ manutencao }}</h2>
+        <p>Em Manutenção</p>
+    </div>
+
+    <div class="card meus">
+        <h2>{{ meus_em_uso }}</h2>
+        <p>Em uso por você</p>
+    </div>
+
+</div>
+
+<br>
+
+<a class="btn btn-primary" href="{% url 'lista_equipamentos' %}">
+    Ver Lista de Equipamentos
+</a>
+
+<a class="btn btn-warning" href="{% url 'relatorio_manutencao' %}">
+    📊 Relatório de Manutenção
+</a>
+
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Historio{% endblock %}
+
+{% block content %}
+
+
+<h2>Histórico de uso — {{ equipamento.nome }}</h2>
+
+<table border="1">
+    <tr>
+        <th>Usuário</th>
+        <th>Data retirada</th>
+        <th>Data devolução</th>
+    </tr>
+
+    {% for uso in historico %}
+    <tr>
+        <td>{{ uso.usuario.username }}</td>
+        <td>{{ uso.data_retirada }}</td>
+        <td>
+            {% if uso.data_devolucao %}
+                {{ uso.data_devolucao }}
+            {% else %}
+                Em uso
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">Nenhum histórico para este equipamento</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<a class="btn btn-secondary" href="/">⬅ Voltar</a>
+
+{% endblock %}

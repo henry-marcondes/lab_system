@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Equipamentos{% endblock %}
+
+{% block content %}
+
+<h1>Lista de Equipamentos</h1>
+
+<a class="btn btn-primary" href="{% url 'equipamentos_em_uso' %}">
+    Ver Equipamentos em Uso
+</a>
+
+<a class="btn btn-warning" href="{% url 'relatorio_manutencao' %}">
+    📊 Relatório de Manutenção
+</a>
+
+<br><br>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Status</th>
+            <th>Localização</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for item in equipamentos_info %}
+        <tr>
+            <td>{{ item.equipamento.nome }}</td>
+            <td>{{ item.equipamento.tipo }}</td>
+
+            <!-- STATUS -->
+            <td>
+                {% if item.equipamento.status == "disponivel" %}
+                    <span class="status-disponivel">Disponível</span>
+                {% elif item.equipamento.status == "em_uso" %}
+                    <span class="status-uso">Em uso</span>
+                {% elif item.equipamento.status == "manutencao" %}
+                    <span class="status-manutencao">Manutenção</span>
+                {% endif %}
+            </td>
+
+            <td>{{ item.equipamento.localizacao }}</td>
+
+            <!-- AÇÕES -->
+            <td>
+                {% if item.equipamento.status == "manutencao" %}
+                    <a class="btn btn-warning"
+                       href="{% url 'finalizar_manutencao' item.equipamento.id %}">
+                        Finalizar
+                    </a>
+
+                {% elif not item.uso_ativo %}
+                    <a class="btn btn-success"
+                       href="{% url 'usar_equipamento' item.equipamento.id %}">
+                        Usar
+                    </a>
+
+                    <a class="btn btn-warning"
+                       href="{% url 'manutencao' item.equipamento.id %}">
+                        Manutenção
+                    </a>
+
+                {% elif item.pode_devolver %}
+                    <a class="btn btn-danger"
+                       href="{% url 'devolver_equipamento' item.equipamento.id %}">
+                        Devolver
+                    </a>
+
+                {% else %}
+                    <span style="color: gray;">Em uso por outro usuário</span>
+                {% endif %}
+
+                <a class="btn btn-secondary"
+                   href="{% url 'historico_equipamento' item.equipamento.id %}">
+                    Histórico
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Nenhum equipamento cadastrado.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
