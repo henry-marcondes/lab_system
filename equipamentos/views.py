@@ -198,6 +198,7 @@ def relatorio_manutencao(request):
 
 
 def relatorio_manutencao_csv(request):
+    
     equipamentos = Equipamento.objects.filter(status='manutencao')
 
     response = HttpResponse(content_type="text/csv")
@@ -219,8 +220,8 @@ def relatorio_manutencao_csv(request):
 
     return response
 
-
 def relatorio_manutencao_excel(request):
+    
     equipamentos = Equipamento.objects.filter(status='manutencao')
 
     wb = Workbook()
@@ -250,5 +251,149 @@ def relatorio_manutencao_excel(request):
 
     wb.save(response)
     return response
+
+def relatorio_em_uso(request):
+    usos = UsoEquipamento.objects.filter(
+       data_devolucao__isnull=True
+    ).select_related('equipamento', 'usuario')
+    return render(request, "equipamentos/relatorio_em_uso.html", {"usos": usos})
+
+def relatorio_em_uso_csv(request):
+    usos = UsoEquipamento.objects.filter(data_devolucao__isnull=True).select_related('equipamento', 'usuario')
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = (
+        'attachment; filename="relatorio_em_uso.csv"'
+    )
+
+    writer = csv.writer(response)
+    writer.writerow([
+        "Equipamento", "Tipo","Usuário", "Data de Retirada"
+    ])
+
+    for uso in usos:
+        writer.writerow([
+            uso.equipamento.nome,
+            uso.equipamento.tipo,
+            uso.usuario.username,
+            uso.data_retirada.strftime("%Y-%m-%d %H:%M:%S")
+        ])
+
+    return response
+
+def relatorio_em_uso_excel(request):
+    usos = UsoEquipamento.objects.filter(data_devolucao__isnull=True).select_related('equipamento', 'usuario')
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Em Uso"
+
+    ws.append([
+        "Equipamento", "Tipo","Usuário", "Data de Retirada"
+    ])
+
+    for uso in usos:
+        ws.append([
+            uso.equipamento.nome,
+            uso.equipamento.tipo,
+            uso.usuario.username,
+            uso.data_retirada.strftime("%Y-%m-%d %H:%M:%S")
+        ])
+
+    response = HttpResponse(
+        content_type=(
+            "application/vnd.openxmlformats-officedocument."
+            "spreadsheetml.sheet"
+        )
+    )
+    response["Content-Disposition"] = (
+        'attachment; filename="relatorio_em_uso.xlsx"'
+    )
+
+    wb.save(response)
+    return response
+
+def relatorio_por_usuario(request):
+    usos = UsoEquipamento.objects.filter(
+        data_devolucao__isnull=True
+    ).select_related("equipamento", "usuario")
+
+    return render(
+        request,
+        "equipamentos/relatorio_por_usuario.html",
+        {"usos": usos}
+    )
+
+def relatorios_home(request):
+    return render(request, "relatorios/home.html")
+
+def relatorio_por_usuario_csv(request):
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = (
+        'attachment; filename="relatorio_por_usuario.csv"'
+    )
+
+    writer = csv.writer(response)
+    writer.writerow([
+        "Usuário",
+        "Equipamento",
+        "Data de Retirada"
+    ])
+
+    usos = UsoEquipamento.objects.select_related(
+        "usuario",
+        "equipamento"
+    )
+
+    for uso in usos:
+        writer.writerow([
+            uso.usuario.username,
+            uso.equipamento.nome,
+            uso.data_retirada.strftime("%d/%m/%Y %H:%M")
+        ])
+
+    return response
+
+def relatorio_por_usuario_excel(request):
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Relatório por Usuário"
+
+    # Cabeçalhos
+    ws.append([
+        "Usuário",
+        "Equipamento",
+        "Data de Retirada",
+        "Data de Devolução"
+    ])
+
+    usos = UsoEquipamento.objects.select_related(
+        "usuario",
+        "equipamento"
+    )
+
+    for uso in usos:
+        ws.append([
+            uso.usuario.username,
+            uso.equipamento.nome,
+            uso.data_retirada.strftime("%d/%m/%Y %H:%M"),
+            uso.data_devolucao.strftime("%d/%m/%Y %H:%M")
+            if uso.data_devolucao else "Em uso"
+        ])
+
+    response = HttpResponse(
+        content_type=(
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+    )
+    response[
+        "Content-Disposition"
+    ] = 'attachment; filename="relatorio_por_usuario.xlsx"'
+
+    wb.save(response)
+    return response
+
+
+
 
 

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Relatórios{% endblock %}
+
+{% block content %}
+<h1>Central de Relatórios</h1>
+
+<div class="relatorios-grid">
+
+    <div class="card">
+        <h2>🔧 Equipamentos em Uso</h2>
+        <p>Lista de equipamentos atualmente emprestados</p>
+
+        <div class="acoes">
+            <a href="{% url 'relatorio_em_uso' %}" class="btn">
+                👁 Visualizar
+            </a>
+            <a href="{% url 'relatorio_em_uso_csv' %}" class="btn secondary">
+                📄 CSV
+            </a>
+            <a href="{% url 'relatorio_em_uso_excel' %}" class="btn success">
+                📊 Excel
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>👤 Relatório por Usuário</h2>
+        <p>Equipamentos em uso agrupados por usuário</p>
+
+        <div class="acoes">
+            <a href="{% url 'relatorio_por_usuario' %}" class="btn">
+                👁 Visualizar
+            </a>
+            <a href="{% url 'relatorio_por_usuario_csv' %}" class="btn secondary">
+                📄 CSV
+            </a>
+            <a href="{% url 'relatorio_por_usuario_excel' %}" class="btn success">
+                📊 Excel
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

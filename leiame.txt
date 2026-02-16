@@ -1,0 +1,17 @@
+fluxo normal do git lonha de comando
+
+git status
+git add .
+git commit -m "sua mensagem"
+git push
+
+situação: O arquivo .gitignore foi editado para incluir arquivos e 
+pastas que não devem ser versionados, e vc já tnha feito o git add .
+
+O correto para incluir o arquivo editado é limpar o add e refazer o add
+
+git restore --staged .
+git status
+git add .
+git commit -m "mensagem"
+git push
