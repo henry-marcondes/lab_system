@@ -21,16 +21,20 @@ Sistema web desenvolvido em **Django** para controle de equipamentos de laborat�
   - `em_uso`
   - `manutencao`
 - Histórico de uso por equipamento
+- Controle de empréstimo e devolução
 
 ### 👤 Usuários
-- Login e logout
+- Autenticação (Login/logout)
+- Exibição do usuário logado em todas páginas
 - Visualização de equipamentos em uso pelo próprio usuário
 - Controle de devolução
 
 ### 🛠 Manutenção
 - Enviar equipamento para manutenção
 - Finalizar manutenção
-- Relatório específico de equipamentos em manutenção
+- Página dedicada de relatório de equipamentos em manutenção
+- Exportação do relatório de eqipamentos em manutenção
+- Exportação do relatório em CSV  Exel
 
 ### 📊 Dashboard
 - Total de equipamentos
@@ -38,9 +42,13 @@ Sistema web desenvolvido em **Django** para controle de equipamentos de laborat�
 - Em uso
 - Em manutenção
 - Em uso pelo usuário logado
+- Menu centralizado de acesso aos relatórios
 
 ### 📄 Relatórios
 - Página de relatório de manutenção
+- Página de relatório de equipamentos em uso
+- Página de usuários para seleção
+- Página com equipamentos em uso por usuário selecionado
 - Exportação em:
   - CSV
   - Excel (.xlsx)
@@ -80,4 +88,32 @@ lab_system/
 │       └── css/style.css
 ├── manage.py
 └── README.md
+```
+---
+
+## Importação de usuários
+
+O sistema possui um comando para importar usuários via CSV.
+
+### Exemplo de uso
+
+```bash
+python manage.py importar_usuarios data/usuarios_lab.csv
+
+```
+
+
+## Importação de equipamentos
+
+O sistema possui um comando para importar equipamentos via CSV.
+
+### Exemplo de uso
+
+```bash
+python manage.py importar_equipamentos data/importar_equipamentos.csv
+
+```
+
+
+
 

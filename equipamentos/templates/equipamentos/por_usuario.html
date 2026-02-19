@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Relatório por Usuário{% endblock %}
+
+{% block content %}
+<h1>Relatório por Usuário</h1>
+
+<table>
+    <tr>
+        <th>Usuário</th>
+        <th>Equipamento</th>
+        <th>Retirada</th>
+        <th>Devolução</th>
+        <th>Status</th>
+    </tr>
+
+    {% for uso in usos %}
+    <tr>
+        <td>{{ uso.usuario.get_full_name }}</td>
+        <td>{{ uso.equipamento.nome }}</td>
+        <td>{{ uso.data_retirada }}</td>
+        <td>
+            {{ uso.data_devolucao|default:"—" }}
+        </td>
+        <td>
+            {% if uso.data_devolucao %}
+                <span class="status-disponivel">Devolvido</span>
+            {% else %}
+                <span class="status-uso">Em uso</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -15,9 +15,20 @@
     </div>
 
     <nav>
+        <header class="topbar">
+    <div class="logo">
+        🧪 Sistema de Laboratório
+    </div>
+
+   
+</header>
+
         <a href="{% url 'home' %}">🏠 Dashboard</a>
         <a href="{% url 'lista_equipamentos' %}">📋 Equipamentos</a>
-        <a href="{% url 'meus_equipamentos' %}">👤 Meus Equipamentos</a>
+        <a href="{% url 'meus_equipamentos' %}">🎒 Meus Equipamentos</a>
+        <span style="margin-right: 15px;">
+            👤 {{ user.first_name|default:user.username }}
+        </span>
 
         <form action="{% url 'logout' %}" method="post" style="display:inline;">
             {% csrf_token %}

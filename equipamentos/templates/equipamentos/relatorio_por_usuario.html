@@ -2,24 +2,23 @@
 {% block title %}Relatório por Usuário{% endblock %}
 
 {% block content %}
-<h1>Equipamentos por Usuário</h1>
+<h1>Relatório por Usuário</h1>
 
 <table>
     <tr>
         <th>Usuário</th>
-        <th>Equipamento</th>
-        <th>Retirado em</th>
+        <th>Ação</th>
     </tr>
 
-    {% for uso in usos %}
+    {% for usuario in usuarios %}
     <tr>
-        <td>{{ uso.usuario.username }}</td>
-        <td>{{ uso.equipamento.nome }}</td>
-        <td>{{ uso.data_retirada }}</td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="3">Nenhum registro.</td>
+        <td>{{ usuario.get_full_name }} ({{ usuario.username }})</td>
+        <td>
+            <a class="btn btn-primary"
+               href="{% url 'relatorio_usuario_detalhe' usuario.id %}">
+                Ver histórico
+            </a>
+        </td>
     </tr>
     {% endfor %}
 </table>

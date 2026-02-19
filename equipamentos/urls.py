@@ -21,8 +21,11 @@ urlpatterns = [
     path("relatorios/em-uso/csv/",views.relatorio_em_uso_csv,name="relatorio_em_uso_csv"),
     path("relatorios/em-uso/excel/",views.relatorio_em_uso_excel,name="relatorio_em_uso_excel"),
     # por usuário
-    path("relatorios/por-usuario/",views.relatorio_por_usuario,name="relatorio_por_usuario"),
-    path("relatorios/por-usuario/csv/",views.relatorio_por_usuario_csv,name="relatorio_por_usuario_csv"),
-    path("relatorios/por-usuario/excel/",views.relatorio_por_usuario_excel,name="relatorio_por_usuario_excel"),
+    path("relatorios/por-usuario/",views.relatorio_por_usuario,name="relatorio_por_usuario",),
+    path("relatorios/por-usuario/<int:usuario_id>/",views.relatorio_usuario_detalhe,name="relatorio_usuario_detalhe"),
+    path("relatorios/por-usuario/<int:usuario_id>/csv/",views.relatorio_usuario_csv,name="relatorio_usuario_csv"),
+    path("relatorios/por-usuario/<int:usuario_id>/excel/",views.relatorio_usuario_excel,name="relatorio_usuario_excel"),
+    path("relatorios/por-usuario/excel/",views.relatorio_usuario_excel,name="relatorio_por_usuario_excel"),
+    #path("relatorios/auditoria/", views.relatorio_auditoria, name="relatorio_auditoria"),
 ]
 

@@ -6,6 +6,8 @@ from django.shortcuts import render
 from .models import Equipamento,  UsoEquipamento
 from datetime import timedelta
 from django.db.models import Q
+from django.contrib.auth.models import User
+
 # Excel
 from openpyxl import Workbook
 from django.http import HttpResponse
@@ -281,6 +283,7 @@ def relatorio_em_uso_csv(request):
 
     return response
 
+@login_required
 def relatorio_em_uso_excel(request):
     usos = UsoEquipamento.objects.filter(data_devolucao__isnull=True).select_related('equipamento', 'usuario')
 
@@ -313,48 +316,74 @@ def relatorio_em_uso_excel(request):
     wb.save(response)
     return response
 
+@login_required
 def relatorio_por_usuario(request):
-    usos = UsoEquipamento.objects.filter(
-        data_devolucao__isnull=True
-    ).select_related("equipamento", "usuario")
+    usuarios = User.objects.order_by("username")
 
     return render(
         request,
         "equipamentos/relatorio_por_usuario.html",
-        {"usos": usos}
+        {"usuarios": usuarios}
     )
 
+@login_required
+def relatorio_usuario_detalhe(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id)
+
+    usos = UsoEquipamento.objects.filter(
+        usuario=usuario
+    ).select_related("equipamento").order_by("-data_retirada")
+
+    return render(
+        request,
+        "equipamentos/relatorio_usuario_detalhe.html",
+        {
+            "usuario": usuario,
+            "usos": usos
+        }
+    )
+
+@login_required
 def relatorios_home(request):
     return render(request, "relatorios/home.html")
 
-def relatorio_por_usuario_csv(request):
+@login_required
+def relatorio_usuario_csv(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id)
+
+    usos = UsoEquipamento.objects.filter(
+        usuario=usuario
+    ).select_related("equipamento")
+
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = (
-        'attachment; filename="relatorio_por_usuario.csv"'
+        f'attachment; filename="relatorio_{usuario.username}.csv"'
     )
 
     writer = csv.writer(response)
     writer.writerow([
         "Usuário",
         "Equipamento",
-        "Data de Retirada"
+        "Data de Retirada",
+        "Data de Devolução",
+        "Status"
     ])
-
-    usos = UsoEquipamento.objects.select_related(
-        "usuario",
-        "equipamento"
-    )
 
     for uso in usos:
         writer.writerow([
-            uso.usuario.username,
+            usuario.username,
             uso.equipamento.nome,
-            uso.data_retirada.strftime("%d/%m/%Y %H:%M")
+            uso.data_retirada.strftime("%d/%m/%Y %H:%M"),
+            uso.data_devolucao.strftime("%d/%m/%Y %H:%M")
+            if uso.data_devolucao else "",
+            "Devolvido" if uso.data_devolucao else "Em uso"
         ])
 
     return response
 
-def relatorio_por_usuario_excel(request):
+@login_required
+def relatorio_usuario_excel(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id)
     wb = Workbook()
     ws = wb.active
     ws.title = "Relatório por Usuário"
@@ -392,8 +421,6 @@ def relatorio_por_usuario_excel(request):
 
     wb.save(response)
     return response
-
-
 
 
 
